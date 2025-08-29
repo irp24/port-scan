@@ -1,6 +1,15 @@
-use std::env;
 use std::net::{TcpStream, ToSocketAddrs};
 use std::time::Duration;
+use clap::Parser;
+
+/// Simple program to scan port
+#[derive(Parser, Debug)]
+#[command(version, about, long_about = None)]
+struct Args {
+    /// Target ip address
+    #[arg(short, long)]
+    ip: String,
+}
 
 fn check_addr(ip: &str, port: u16) -> bool {
     let addr = format!("{ip}:{port}");
@@ -13,12 +22,16 @@ fn check_addr(ip: &str, port: u16) -> bool {
 }
 
 fn main(){
-    let ip = env::args().nth(1).unwrap_or_else(|| "127.0.0.1".into());
-    let ports = [];
+    let args = Args::parse();
 
-    for port in ports {
-        if check_addr(&ip, port) {
-            println!("Open port: {port}")
+    let pb = indicatif::ProgressBar::new(65535);
+    for port in 1..65535 {
+        if check_addr(&args.ip, port) {
+            pb.println(format!("[+] Open port: {}", port));
         }
+        pb.inc(1);
     }
+    pb.finish_with_message("done");
+
+
 }

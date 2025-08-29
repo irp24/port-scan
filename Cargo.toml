@@ -1,7 +1,9 @@
 [package]
 name = "port-scan"
-version = "0.1.0"
+version = "0.1.2"
 edition = "2024"
 license = "MIT"
 
 [dependencies]
+clap = { version = "4.0", features = ["derive"] }
+indicatif = "0.18.0"
