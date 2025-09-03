@@ -7,7 +7,7 @@ use clap::Parser;
 #[command(version, about, long_about = None)]
 struct Args {
     /// Target ip address
-    #[arg(short, long)]
+    #[arg(short, long, default_value = "127.0.0.1"))]
     ip: String,
 }
 
